@@ -38,10 +38,32 @@ async function run() {
 
     
   const productsCollection = client.db("khaasFoodDatabase").collection("allProducts")  
+  const categoriNameCollection = client.db("khaasFoodDatabase").collection("categorisName")
+
+  
+  
+
+  app.get("/allFoods", async (req, res) => {
+     const filter = {}
+     const foodsCategoris  = await productsCollection.find(filter).project({categori: 1}).toArray()
+     res.send(foodsCategoris)
+  })
 
 
+  app.get("/categorisName", async(req, res)=> {
+    const query = {}
+    const name = await categoriNameCollection.find(query).toArray()
+    console.log(name)
+    res.send(name)
+  })
 
-
+  // click name then specic data show 
+  app.get("/clikName/:id", async (req, res) => {
+      const name = req.params.id
+      const filter = {categori: name}
+      const result = await productsCollection.find(filter).toArray()
+      res.send(result)
+  })
 
 
 
