@@ -1,6 +1,6 @@
 const express = require('express')
 const cors = require("cors")
-const { MongoClient, ServerApiVersion } = require('mongodb');
+const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
 const app = express()
 const port = 5000
 
@@ -39,7 +39,7 @@ async function run() {
     
   const productsCollection = client.db("khaasFoodDatabase").collection("allProducts")  
   const categoriNameCollection = client.db("khaasFoodDatabase").collection("categorisName")
-
+  const blogCollection = client.db("khaasFoodDatabase").collection('Blog')
   
   
 
@@ -65,6 +65,28 @@ async function run() {
       res.send(result)
   })
 
+// Fruits 
+  app.get("/homeFruits", async (req, res ) => {
+     const filter = {categori: "FRUITS"}
+     const fruits = await productsCollection.find(filter).limit(4).toArray()
+     res.send(fruits)
+  })
+
+
+  app.get("/FruitsAll", async (req, res ) => {
+    const filter = {categori: "FRUITS"}
+    const fruits = await productsCollection.find(filter).toArray()
+    res.send(fruits)
+ })
+
+
+ app.get("/fruits/:id", async (req, res )=> {
+   const id = req.params.id
+   const filter= {_id: new ObjectId(id)}
+   console.log(filter)
+   const singleFruit= await productsCollection.findOne(filter)
+   res.send(singleFruit)
+ })
 
 
 
@@ -72,9 +94,45 @@ async function run() {
 
 
 
+  // Fish 
+  app.get("/homeFish", async (req, res ) => {
+     const filter= {categori: "FISH"}
+     const fish = await productsCollection.find(filter).limit(4).toArray()
+     res.send(fish)
+  })
 
 
 
+
+  // HONEY 
+  app.get("/homeHoney", async (req, res ) => {
+    const filter = { categori: "HONEY"}
+    const honey = await productsCollection.find(filter).limit(4).toArray()
+    res.send(honey)
+  })
+
+
+
+
+  // MEAT 
+  app.get('/homeMeat', async (req, res ) => {
+     const filter = { categori: "MEAT"}
+     const meat = await productsCollection.find(filter).limit(4).toArray()
+     res.send(meat)
+  })
+
+
+
+
+
+  // Blog 
+  app.get('/blogImage', async (req, res ) => {
+     const filter = {}
+     const blog = await blogCollection.find(filter).toArray()
+     res.send(blog)
+  })
+
+  
 
 
 
