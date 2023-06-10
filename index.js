@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require("cors")
 const { MongoClient, ServerApiVersion, ObjectId } = require('mongodb');
+const req = require('express/lib/request');
 const app = express()
 const port = 5000
 
@@ -152,8 +153,25 @@ async function run() {
      res.send(blog)
   })
 
+
+  app.get("/blogDetails/:id", async (req, res ) => {
+      const id = req.params.id
+      const option = {_id : new ObjectId(id) }
+      const result = await blogCollection.findOne(option)
+      res.send(result)
+  })
+
   
 
+
+  // all product show 
+  app.get("/allProducts", async (req, res ) => {
+      const filter = {}
+      const products = await productsCollection.find(filter).toArray()
+      res.send(products)
+  })
+
+  
 
 
 
