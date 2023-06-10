@@ -101,6 +101,12 @@ async function run() {
      res.send(fish)
   })
 
+  app.get("/FishAll", async (req, res ) => {
+    const filter= {categori: "FISH"}
+    const fish = await productsCollection.find(filter).toArray()
+    res.send(fish)
+ })
+
 
 
 
@@ -112,6 +118,14 @@ async function run() {
   })
 
 
+  app.get("/honeyAll", async (req, res ) => {
+    const filter = { categori: "HONEY"}
+    const honey = await productsCollection.find(filter).toArray()
+    res.send(honey)
+  })
+
+
+
 
 
   // MEAT 
@@ -121,6 +135,12 @@ async function run() {
      res.send(meat)
   })
 
+
+  app.get('/MeatSee', async (req, res ) => {
+    const filter = { categori: "MEAT"}
+    const meat = await productsCollection.find(filter).toArray()
+    res.send(meat)
+ })
 
 
 
